@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[187]:
+# In[203]:
 
 get_ipython().magic('matplotlib inline')
 from __future__ import division
@@ -144,10 +144,10 @@ import matplotlib.pyplot as plt
 from skimage import measure
 
 
-# In[196]:
+# In[491]:
 
 
-nazwa = "oli.jpg"
+nazwa = "obraz23.jpg"
 
 img = data.imread(nazwa)
 img = rgb2gray(img)
@@ -200,7 +200,7 @@ else:
 
 for x in range(len(warstwy)):
     for y in range(len(warstwy[0])):
-        if warstwy[x][y] > 0.19:
+        if warstwy[x][y] >prog_jasnosc:
             warstwy[x][y] = 0.5
         else:
             warstwy[x][y] = 0.0
@@ -210,16 +210,16 @@ contours = measure.find_contours(warstwy, 0.49)
 #koniec nowe
 
 
-# In[197]:
+# In[492]:
 
 io.imshow(warstwy)
 
 
-# In[198]:
+# In[493]:
 
 # UWAGA-  Kuba, jesli nie chcesz miec konturow z obrazka powyzej, tylko tak jak bylo, odkomentuj linijke ponizej
 
-# contours = measure.find_contours(r, 0.83)
+contours = measure.find_contours(r, 0.73)
 
 fig, ax = plt.subplots(figsize=(5, 5))
 
@@ -304,7 +304,7 @@ display(result)
 plt.show()
 
 
-# In[199]:
+# In[494]:
 
 duplikaty = getCopies(pd.DataFrame(hu_moments))
 # tu patrze jakie indeksy w hu_moments mają najbardziej podobne
@@ -315,7 +315,7 @@ result.columns = ["n", "M1", "M2","M3","M4","M5","M6", "M7", "R", "G", "B"]
 display(result)
 
 
-# In[201]:
+# In[495]:
 
 fig, ax = plt.subplots(figsize=(15, 10))
 kolorowy = io.imread(nazwa)
@@ -332,7 +332,7 @@ for n, contour in enumerate(contours):
         
 
 
-# In[19]:
+# In[485]:
 
 baza_obrazków = {"Butelka": [2.842330, 5.908643, 9.831452, 9.903460, 19.771887, 12.863248, 20.946219],
                 "Samochod": [2.909374, 7.719943, 9.534100, 10.449567, -20.442104, -14.327201, 21.686462],

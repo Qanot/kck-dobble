@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[296]:
+# In[187]:
 
 get_ipython().magic('matplotlib inline')
 from __future__ import division
@@ -113,9 +113,9 @@ def getCopies(df):
             if not(n == j): 
                 sum_product = 0
                 for i in range(len(df.iloc[j])):
-#                     if i == 6:
-#                         sum_product += (abs((df.iloc[j, i]) - abs(df.iloc[n,i]))**2)/(df.iloc[j, i])**2
-#                     else:
+                    if i == 5:
+                        sum_product += (abs((df.iloc[j, i]) - abs(df.iloc[n,i]))**2)/(df.iloc[j, i])**2
+                    else:
                         sum_product += (((df.iloc[j, i]) - (df.iloc[n,i]))**2)/(df.iloc[j, i])**2
                 temp.append((n, j, sum_product))
     copy = getMin(temp)
@@ -144,10 +144,10 @@ import matplotlib.pyplot as plt
 from skimage import measure
 
 
-# In[325]:
+# In[196]:
 
 
-nazwa = "obraz2.jpg"
+nazwa = "oli.jpg"
 
 img = data.imread(nazwa)
 img = rgb2gray(img)
@@ -193,6 +193,11 @@ for n, contour in enumerate(contours):
 
 io.imshow(warstwy)
 
+if np.mean(r) > 0.8:
+    prog_jasnosc = 0.09 #tlo biale
+else:
+    prog_jasnosc = 0.19 #tlo kolorowe
+
 for x in range(len(warstwy)):
     for y in range(len(warstwy[0])):
         if warstwy[x][y] > 0.19:
@@ -205,12 +210,12 @@ contours = measure.find_contours(warstwy, 0.49)
 #koniec nowe
 
 
-# In[326]:
+# In[197]:
 
 io.imshow(warstwy)
 
 
-# In[327]:
+# In[198]:
 
 # UWAGA-  Kuba, jesli nie chcesz miec konturow z obrazka powyzej, tylko tak jak bylo, odkomentuj linijke ponizej
 
@@ -291,39 +296,43 @@ for n, contour in enumerate(contours):
         #cv2.getHuMoments(momenty)
 ax.axis('image')
 # wyświetlanie wyników
-df1 =  pd.DataFrame(n_ind) 
+df1 =  pd.DataFrame(n_ind)
 frames = [df1, pd.DataFrame(hu_moments)]
 result = pd.concat(frames, axis = 1)
+
 display(result)
 plt.show()
 
 
-# In[328]:
+# In[199]:
 
 duplikaty = getCopies(pd.DataFrame(hu_moments))
 # tu patrze jakie indeksy w hu_moments mają najbardziej podobne
 print(duplikaty)
 # a tu srawdzam jakie indeksty powyższe indeksy mają w naszej tabeli konturów (63 i 69)
 result.iloc[:, 0]
+result.columns = ["n", "M1", "M2","M3","M4","M5","M6", "M7", "R", "G", "B"]
+display(result)
 
 
+# In[201]:
 
-# In[329]:
-
-fig, ax = plt.subplots(figsize=(15, 5))
+fig, ax = plt.subplots(figsize=(15, 10))
 kolorowy = io.imread(nazwa)
 ax.imshow(kolorowy, interpolation='nearest')
 contours = measure.find_contours(warstwy, 0.49)
 
 
 for n, contour in enumerate(contours):
-#     if n ==  or n== 15:
+#     if n == 99 or n== 96:
     if n == result.iloc[:, 0][duplikaty[0]] or n == result.iloc[:, 0][duplikaty[1]]:
         ax.plot(contour[:, 1], contour[:, 0], linewidth=3)
-        ax.set_title(porownajBaze(result.iloc[n,1:8]))
+        ax.set_title(porownajBaze(result.iloc[n,1:8]), size = 30)
+        savefig("zdjecia/" + nazwa)
+        
 
 
-# In[318]:
+# In[19]:
 
 baza_obrazków = {"Butelka": [2.842330, 5.908643, 9.831452, 9.903460, 19.771887, 12.863248, 20.946219],
                 "Samochod": [2.909374, 7.719943, 9.534100, 10.449567, -20.442104, -14.327201, 21.686462],
